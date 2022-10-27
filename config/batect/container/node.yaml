@@ -1,0 +1,12 @@
+containers:
+  node-container:
+    image: node:16.18.0
+    volumes:
+      - local: ../../../
+        container: /container-code
+        options: cached
+    working_directory: /container-code
+    enable_init_process: true
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user

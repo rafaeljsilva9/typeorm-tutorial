@@ -1,0 +1,60 @@
+tasks:
+  run-application:
+    group: General
+    dependencies:
+      - mysql-container
+    description: |
+      Run application
+    run:
+      container: node-container
+      command: yarn start:dev
+      ports:
+        - local: 3000
+          container: 3000
+        - local: 9229
+          container: 9229
+
+  bash:
+    group: General
+    description: Go inside node container and run bash
+    run:
+      container: node-container
+      command: /bin/bash
+
+  build:
+    group: Tools
+    description: Build the project using node version V12.22.1.
+    run:
+      container: node-container
+      command: yarn build
+
+  install:
+    group: Tools
+    description: Install project dependencies using node version V12.22.1.
+    run:
+      container: node-container
+      command: yarn install
+
+  create-migrations:
+    group: database
+    dependencies:
+      - mysql-container
+    description: Create database migration
+    run:
+      container: node-container
+      command: yarn create-migrations
+
+  run-migrations:
+    group: database
+    dependencies:
+      - mysql-container
+    description: Run database migrations
+    run:
+      container: node-container
+      command: yarn run-migrations
+
+include:
+  - type: file
+    path: container/database.yaml
+  - type: file
+    path: container/node.yaml
